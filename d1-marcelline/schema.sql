@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS Users;
+CREATE TABLE IF NOT EXISTS Users (UserId INTEGER PRIMARY KEY, UserName TEXT);
+INSERT INTO Users (UserID, UserName) VALUES (1, 'Marcel'), (2, 'Matthew');
