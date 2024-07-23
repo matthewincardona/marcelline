@@ -7,9 +7,15 @@ fetch(myRequest)
         for (const user of data) {
             const listItem = document.createElement('li');
 
-            listItem.appendChild(document.createElement('strong')).textContent = user.UserName;
+            const userNameStrong = document.createElement('strong');
+            userNameStrong.textContent = user.UserName;
+            listItem.appendChild(userNameStrong);
 
-            listItem.append(document.createElement('strong')).textContent = `Applications: ${user.UserCounter}`;
+            const userCounterStrong = document.createElement('strong');
+            userCounterStrong.textContent = ` Applications: ${user.UserCounter}`;
+            listItem.appendChild(userCounterStrong);
+
+            myList.appendChild(listItem);
         }
     })
-    .catch(console.error)
+    .catch(console.error);
