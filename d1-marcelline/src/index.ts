@@ -27,18 +27,17 @@ export default {
 	async fetch(request, env): Promise<Response> {
 		const { pathname } = new URL(request.url);
 
-		if (pathname === "/api/matthew") {
+		if (pathname === "/api/users") {
 			// If you did not use `DB` as your binding name, change it here
 			const { results } = await env.DB.prepare(
-				"SELECT * FROM Users WHERE UserName = ?"
+				"SELECT * FROM Users"
 			)
-				.bind("Matthew")
 				.all();
 			return Response.json(results);
 		}
 
 		return new Response(
-			"Call /api/matthew to see everyone who is named Matthew"
+			"Call /api/users to see all users"
 		);
 	},
 } satisfies ExportedHandler<Env>;
