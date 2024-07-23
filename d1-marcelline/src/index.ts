@@ -31,13 +31,23 @@ export default {
 			// If you did not use `DB` as your binding name, change it here
 			const { results } = await env.DB.prepare(
 				"SELECT * FROM Users"
-			)
-				.all();
-			return Response.json(results);
+			).all();
+
+			return new Response(JSON.stringify(results), {
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*', // Allow all origins
+				},
+			});
 		}
 
 		return new Response(
-			"Call /api/users to see all users"
+			"Call /api/users to see all users",
+			{
+				headers: {
+					'Access-Control-Allow-Origin': '*', // Allow all origins
+				},
+			}
 		);
 	},
 } satisfies ExportedHandler<Env>;
