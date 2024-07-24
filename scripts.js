@@ -41,7 +41,7 @@ function updateUserCounter(userId, action) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId, action })
+        body: JSON.stringify({ userId, action }) // Ensure this matches the expected format
     })
         .then(response => response.json())
         .then(data => {
@@ -49,7 +49,10 @@ function updateUserCounter(userId, action) {
             // Optionally, refresh the user list to show the updated counter
             fetchUsers();
         })
-        .catch(console.error);
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update counter. Check the console for details.');
+        });
 }
 
 function fetchUsers() {
