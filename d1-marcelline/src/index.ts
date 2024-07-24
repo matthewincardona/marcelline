@@ -48,20 +48,48 @@ export default {
 			});
 		} else if (request.method === 'POST' && pathname === "/api/update-counter") {
 			try {
-				const requestBody: { userId: number } = await request.json();
-				const { userId } = requestBody;
-				await env.DB.prepare("UPDATE Users SET UserCounter = UserCounter + 1 WHERE UserId = ?").bind(userId).run();
-				return new Response(JSON.stringify({ message: 'User counter updated' }), {
+				const requestBody: { userId: number, action: 'increment' | 'decrement' | 'clear' } = await request.json();
+				const { userId, action } = requestBody;
+
+				if (typeof userId !== 'number') {
+					return new Response(JSON.stringify({ error: 'Invalid userId' }), {
+						headers: {
+							'Content-Type': 'application/json',
+							'Access-Control-Allow-Origin': '*',
+						},
+						status: 400,
+					});
+				}
+
+				let updateQuery;
+				if (action === 'increment') {
+					updateQuery = "UPDATE Users SET UserCounter = UserCounter + 1 WHERE UserId = ?";
+				} else if (action === 'decrement') {
+					updateQuery = "UPDATE Users SET UserCounter = UserCounter - 1 WHERE UserId = ?";
+				} else if (action === 'clear') {
+					updateQuery = "UPDATE Users SET UserCounter = 0 WHERE UserId = ?";
+				} else {
+					return new Response(JSON.stringify({ error: 'Invalid action' }), {
+						headers: {
+							'Content-Type': 'application/json',
+							'Access-Control-Allow-Origin': '*',
+						},
+						status: 400,
+					});
+				}
+
+				await env.DB.prepare(updateQuery).bind(userId).run();
+				return new Response(JSON.stringify({ message: `User counter ${action}ed` }), {
 					headers: {
 						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*', // Allow all origins
+						'Access-Control-Allow-Origin': '*',
 					},
 				});
 			} catch (error) {
 				return new Response(JSON.stringify({ error: 'Invalid request body' }), {
 					headers: {
 						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*', // Allow all origins
+						'Access-Control-Allow-Origin': '*',
 					},
 					status: 400,
 				});
@@ -70,7 +98,7 @@ export default {
 
 		return new Response("Call /api/users to see all users", {
 			headers: {
-				'Access-Control-Allow-Origin': '*', // Allow all origins
+				'Access-Control-Allow-Origin': '*',
 			},
 		});
 	},

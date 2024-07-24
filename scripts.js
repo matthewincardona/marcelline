@@ -1,7 +1,6 @@
 const myList = document.querySelector('#users');
-const myRequest = new Request('https://d1-marcelline.matthewincardona.workers.dev/api/users');
 
-fetch(myRequest)
+fetch('https://d1-marcelline.matthewincardona.workers.dev/api/users')
     .then((response) => response.json())
     .then((data) => {
         for (const user of data) {
@@ -15,23 +14,33 @@ fetch(myRequest)
             userCounterStrong.textContent = ` Applications: ${user.UserCounter}`;
             listItem.appendChild(userCounterStrong);
 
-            const updateButton = document.createElement('button');
-            updateButton.textContent = 'Increment Counter';
-            updateButton.addEventListener('click', () => updateUserCounter(user.UserId));
-            listItem.appendChild(updateButton);
+            const incrementButton = document.createElement('button');
+            incrementButton.textContent = 'Increment Counter';
+            incrementButton.addEventListener('click', () => updateUserCounter(user.UserId));
+            listItem.appendChild(incrementButton);
+
+            const decrementButton = document.createElement('button');
+            decrementButton.textContent = 'Increment Counter';
+            decrementButton.addEventListener('click', () => updateUserCounter(user.UserId));
+            listItem.appendChild(decrementButton);
+
+            const clearButton = document.createElement('button');
+            clearButton.textContent = 'Clear Counter';
+            clearButton.addEventListener('click', () => updateUserCounter(user.UserId, 'clear'));
+            listItem.appendChild(clearButton);
 
             myList.appendChild(listItem);
         }
     })
     .catch(console.error);
 
-function updateUserCounter(userId) {
+function updateUserCounter(userId, action) {
     fetch('https://d1-marcelline.matthewincardona.workers.dev/api/update-counter', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ userId })
+        body: JSON.stringify({ userId, action })
     })
         .then(response => response.json())
         .then(data => {
@@ -43,7 +52,7 @@ function updateUserCounter(userId) {
 }
 
 function fetchUsers() {
-    fetch(myRequest)
+    fetch('https://d1-marcelline.matthewincardona.workers.dev/api/users')
         .then((response) => response.json())
         .then((data) => {
             myList.innerHTML = ''; // Clear the existing list
