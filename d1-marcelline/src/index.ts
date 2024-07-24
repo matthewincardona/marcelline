@@ -27,6 +27,17 @@ export default {
 	async fetch(request, env): Promise<Response> {
 		const { pathname } = new URL(request.url);
 
+		if (request.method === 'OPTIONS') {
+			// Handle CORS preflight request
+			return new Response(null, {
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+					'Access-Control-Allow-Headers': 'Content-Type',
+				},
+			});
+		}
+
 		if (request.method === 'GET' && pathname === "/api/users") {
 			const { results } = await env.DB.prepare("SELECT * FROM Users").all();
 			return new Response(JSON.stringify(results), {
