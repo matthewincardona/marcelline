@@ -1,6 +1,7 @@
 const myList = document.querySelector('#users');
+const myRequest = new Request('https://d1-marcelline.matthewincardona.workers.dev/api/users');
 
-fetch('https://d1-marcelline.matthewincardona.workers.dev/api/users')
+fetch(myRequest)
     .then((response) => response.json())
     .then((data) => {
         for (const user of data) {
@@ -52,7 +53,7 @@ function updateUserCounter(userId, action) {
 }
 
 function fetchUsers() {
-    fetch('https://d1-marcelline.matthewincardona.workers.dev/api/users')
+    fetch(myRequest)
         .then((response) => response.json())
         .then((data) => {
             myList.innerHTML = ''; // Clear the existing list
