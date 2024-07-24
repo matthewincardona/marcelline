@@ -27,27 +27,40 @@ export default {
 	async fetch(request, env): Promise<Response> {
 		const { pathname } = new URL(request.url);
 
-		if (pathname === "/api/users") {
-			// If you did not use `DB` as your binding name, change it here
-			const { results } = await env.DB.prepare(
-				"SELECT * FROM Users"
-			).all();
-
+		if (request.method === 'GET' && pathname === "/api/users") {
+			const { results } = await env.DB.prepare("SELECT * FROM Users").all();
 			return new Response(JSON.stringify(results), {
 				headers: {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*', // Allow all origins
 				},
 			});
+		} else if (request.method === 'POST' && pathname === "/api/update-counter") {
+			try {
+				const requestBody: { userId: number } = await request.json();
+				const { userId } = requestBody;
+				await env.DB.prepare("UPDATE Users SET UserCounter = UserCounter + 1 WHERE UserId = ?").bind(userId).run();
+				return new Response(JSON.stringify({ message: 'User counter updated' }), {
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*', // Allow all origins
+					},
+				});
+			} catch (error) {
+				return new Response(JSON.stringify({ error: 'Invalid request body' }), {
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*', // Allow all origins
+					},
+					status: 400,
+				});
+			}
 		}
 
-		return new Response(
-			"Call /api/users to see all users",
-			{
-				headers: {
-					'Access-Control-Allow-Origin': '*', // Allow all origins
-				},
-			}
-		);
+		return new Response("Call /api/users to see all users", {
+			headers: {
+				'Access-Control-Allow-Origin': '*', // Allow all origins
+			},
+		});
 	},
 } satisfies ExportedHandler<Env>;
