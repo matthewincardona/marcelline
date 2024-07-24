@@ -1,7 +1,6 @@
 * {
     font-family: "Playwrite AR", cursive;
     font-optical-sizing: auto;
-    font-weight: <weight>;
     font-style: normal;
 }
 
@@ -10,8 +9,9 @@ body {
 }
 
 h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    line-height: 1px;
 }
 
 .user-list {
@@ -26,6 +26,25 @@ h3 {
     border: solid 1px;
     border-radius: 5px;
     padding: 10%;
+    font-size: 1.4rem;
+}
+
+.user-list__inner__actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.user-list__inner__buttons {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+    gap: 1em
+}
+
+.user-list__inner__actions>button {
+    background-color: rgb(185, 32, 32);
 }
 
 .user-list__inner__controls {
@@ -35,7 +54,13 @@ h3 {
     gap: .5em;
 }
 
+.underline-number {
+    text-decoration: underline;
+    font-weight: 800;
+}
+
 button {
+    font-size: 1rem;
     border: none;
     border-radius: 1px;
     transition: all ease-in-out .2s 0s;
@@ -43,6 +68,7 @@ button {
     color: white;
     cursor: pointer;
     transform: translate(0, 0, 0);
+    padding: 5px 10px;
 }
 
 button:hover {

@@ -16,29 +16,38 @@ function fetchUsers() {
                 listItem.appendChild(userNameStrong);
 
                 const userCounterStrong = document.createElement('strong');
-                userCounterStrong.textContent = `Applications: ${user.UserCounter}`;
+                const underlineSpan = document.createElement('span');
+                underlineSpan.classList.add('underline-number');
+                underlineSpan.textContent = user.UserCounter;
+                userCounterStrong.textContent = `Applications: `;
+                userCounterStrong.appendChild(underlineSpan);
                 listItem.appendChild(userCounterStrong);
+
+                // user-list__inner__actions
+                const listItemActions = document.createElement('div');
+                listItemActions.classList.add('user-list__inner__actions');
 
                 const clearButton = document.createElement('button');
                 clearButton.textContent = 'Clear';
                 clearButton.addEventListener('click', () => updateUserCounter(user.UserId, 'clear'));
-                listItem.appendChild(clearButton);
+                listItemActions.appendChild(clearButton);
 
-                // user-list__inner__controls
-                const listItemControls = document.createElement('div');
-                listItemControls.classList.add('user-list__inner__controls');
+                // user-list__inner__buttons
+                const listItemButtons = document.createElement('div');
+                listItemButtons.classList.add('user-list__inner__buttons');
 
                 const incrementButton = document.createElement('button');
                 incrementButton.textContent = '+';
                 incrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'increment'));
-                listItemControls.appendChild(incrementButton);
+                listItemButtons.appendChild(incrementButton);
 
                 const decrementButton = document.createElement('button');
                 decrementButton.textContent = '-';
                 decrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'decrement'));
-                listItemControls.appendChild(decrementButton);
+                listItemButtons.appendChild(decrementButton);
 
-                listItem.appendChild(listItemControls);
+                listItemActions.appendChild(listItemButtons);
+                listItem.appendChild(listItemActions);
                 myList.appendChild(listItem);
             }
         })
