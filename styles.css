@@ -17,6 +17,7 @@ h3 {
 .user-list {
     display: flex;
     gap: 3em;
+    flex-wrap: wrap;
 }
 
 .user-list__inner {
