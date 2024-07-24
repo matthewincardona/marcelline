@@ -5,4 +5,3 @@ CREATE TABLE IF NOT EXISTS Users
     UserName TEXT, 
     UserCounter INTEGER
 );
-INSERT INTO Users (UserID, UserName, UserCounter) VALUES (1, 'Marcel', 0), (2, 'Matthew', 0);

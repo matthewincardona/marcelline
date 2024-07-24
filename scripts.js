@@ -7,31 +7,38 @@ function fetchUsers() {
         .then((data) => {
             myList.innerHTML = ''; // Clear the existing list
             for (const user of data) {
-                const listItem = document.createElement('li');
+                const listItem = document.createElement('div');
+                listItem.classList.add('user-list__inner');
 
-                const userNameStrong = document.createElement('strong');
+                // user-list__inner
+                const userNameStrong = document.createElement('h3');
                 userNameStrong.textContent = user.UserName;
                 listItem.appendChild(userNameStrong);
 
                 const userCounterStrong = document.createElement('strong');
-                userCounterStrong.textContent = ` Applications: ${user.UserCounter}`;
+                userCounterStrong.textContent = `Applications: ${user.UserCounter}`;
                 listItem.appendChild(userCounterStrong);
 
-                const incrementButton = document.createElement('button');
-                incrementButton.textContent = 'Increment Counter';
-                incrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'increment'));
-                listItem.appendChild(incrementButton);
-
-                const decrementButton = document.createElement('button');
-                decrementButton.textContent = 'Decrement Counter';
-                decrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'decrement'));
-                listItem.appendChild(decrementButton);
-
                 const clearButton = document.createElement('button');
-                clearButton.textContent = 'Clear Counter';
+                clearButton.textContent = 'Clear';
                 clearButton.addEventListener('click', () => updateUserCounter(user.UserId, 'clear'));
                 listItem.appendChild(clearButton);
 
+                // user-list__inner__controls
+                const listItemControls = document.createElement('div');
+                listItemControls.classList.add('user-list__inner__controls');
+
+                const incrementButton = document.createElement('button');
+                incrementButton.textContent = '+';
+                incrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'increment'));
+                listItemControls.appendChild(incrementButton);
+
+                const decrementButton = document.createElement('button');
+                decrementButton.textContent = '-';
+                decrementButton.addEventListener('click', () => updateUserCounter(user.UserId, 'decrement'));
+                listItemControls.appendChild(decrementButton);
+
+                listItem.appendChild(listItemControls);
                 myList.appendChild(listItem);
             }
         })
