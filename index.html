@@ -84,14 +84,15 @@
                     './assets/sounds/explosion2.mp3'
                 ],
                 volume: {
-                    min: 4,
-                    max: 8
+                    min: 3,
+                    max: 6
                 }
             }
         });
 
         const launchFireworks = () => {
             var audio = new Audio('./assets/sounds/applause.mp3');
+            audio.volume = 0.4;
             audio.play();
 
             setTimeout(() => {
