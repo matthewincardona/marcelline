@@ -68,6 +68,9 @@ function updateUserCounter(userId, action) {
             fetchUsers(); // Refresh the user list to show the updated counter
         })
         .catch(console.error);
+
+    if (action == 'increment') // Launch fireworks when the counter is incremented
+        launchFireworks();
 }
 
 // Call the function to fetch and display users when the page loads

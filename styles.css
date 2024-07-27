@@ -14,6 +14,14 @@ h3 {
     line-height: 1px;
 }
 
+#fireworks {
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+    inset: 0;
+    z-index: -1;
+}
+
 .user-list {
     display: flex;
     gap: 3em;
